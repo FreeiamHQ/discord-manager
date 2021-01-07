@@ -25,7 +25,12 @@ class DiscordAction
             ->fetch(env('DISCORD_SERVER_ID'))
             ->done(function (Guild $guild) use ($user, $role, $client) {
                 $guild->members->fetch($user)->done(function (Member $member) use ($role, $client) {
+
+                    collect(config('discord.ranks'))
+                        ->each(fn ($roleId) => $member->removeRole($roleId));
+
                     $member->addRole($role);
+
                     $client->guilds->save($member);
                 });
             });
