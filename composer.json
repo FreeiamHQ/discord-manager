@@ -12,7 +12,9 @@
     ],
     "require": {
         "php": "^7.3|^8.0",
+        "guzzlehttp/guzzle": "^6.5.5",
         "illuminate/database": "^8.0",
+        "illuminate/http": "^8.0",
         "illuminate/log": "^8.0",
         "laravel-zero/framework": "^8.4",
         "team-reflex/discord-php": "^5.1"

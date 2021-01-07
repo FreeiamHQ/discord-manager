@@ -15,17 +15,23 @@ class QueueCommand extends Command
 
     protected $description = 'Fetch and execute commands retrieved from the Freeiam API.';
 
+    const ApiEndpoint = 'discord-manager-queue';
+
     public function handle(ExecuteCommandAction $executeCommandAction)
     {
         $discord = new Discord([
             'token' => env('DISCORD_TOKEN') ?? throw new Exception('Discord is not configured.'),
         ]);
 
-        Http::withToken(env('API_TOKEN'))
+        $res = Http::withToken(env('API_TOKEN'))
             ->timeout(5)
-            ->get(env('API_URL') . '/' . $this->apiEndpoint)
-            ->throw()
-            ->json()
+            ->get(env('API_URL') . '/' . self::ApiEndpoint);
+
+        if ($res->failed()) {
+            return;
+        }
+
+        collect($res->json()['data'] ?? [])
             ->each(fn ($commandData) => $executeCommandAction->execute(Command::fromArray($commandData), $discord));
     }
 
