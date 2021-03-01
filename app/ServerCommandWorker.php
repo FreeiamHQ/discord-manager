@@ -19,6 +19,7 @@ class ServerCommandWorker
     {
         $res = Http::withToken(env('API_TOKEN'))
             ->timeout(5)
+            ->acceptJson()
             ->get(env('API_URL') . '/' . self::ApiEndpoint);
 
             if ($res->failed()) {
