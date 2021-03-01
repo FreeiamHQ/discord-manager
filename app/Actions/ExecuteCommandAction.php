@@ -2,22 +2,26 @@
 
 namespace App\Actions;
 
-use App\Command;
-use App\CommandType;
-use Discord\Discord;
-use App\DiscordAction;
-use InvalidArgumentException;
+use App\DiscordCommands\ConnectDiscordCommand;
+use Discord\Parts\Channel\Message;
+use App\DiscordCommands\InsultDiscordCommand;
+use App\DiscordCommands\WelcomeDiscordCommand;
 
 class ExecuteCommandAction
 {
-    public function execute(Command $command, Discord $discord): void
+    public function __construct(
+        private WelcomeDiscordCommand $welcomeDiscordCommand,
+        private InsultDiscordCommand $insultDiscordCommand,
+        private ConnectDiscordCommand $connectDiscordCommand,
+    ) {}
+
+    public function execute(string $command, Message $discordMessage): void
     {
-        throw_unless($command, InvalidArgumentException::class, 'Command is required.');
-
-        $discordAction = new DiscordAction($discord);
-
-        match ($command->name) {
-            CommandType::UpdateRole => $discordAction->addRoleToUser($command->user, config("discord.ranks.{$command->value}")),
+        match ($command) {
+            '!welcome' => $this->welcomeDiscordCommand->execute($discordMessage),
+            '!insult' => $this->insultDiscordCommand->execute($discordMessage),
+            '!connect' => $this->connectDiscordCommand->execute($discordMessage),
+            default => '',
         };
     }
 }

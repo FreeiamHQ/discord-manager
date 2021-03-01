@@ -2,7 +2,7 @@
 
 namespace App;
 
-class CommandType
+class ServerCommandType
 {
     const UpdateRole = 'role_update';
 }

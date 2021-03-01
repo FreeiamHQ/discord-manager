@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'notification_channel_id' => env('DISCORD_NOTIFICATION_CHANNEL', '796668796822618112'),
+
     'ranks' => [
         'unranked' => '796488420637278249',
         'sleeper' => '796488662355148810',

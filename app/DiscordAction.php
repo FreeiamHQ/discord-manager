@@ -7,7 +7,6 @@ use InvalidArgumentException;
 use Discord\Parts\Guild\Guild;
 use Discord\Parts\User\Member;
 use Discord\Parts\Channel\Channel;
-use Discord\Parts\Channel\Message;
 
 class DiscordAction
 {
@@ -15,7 +14,7 @@ class DiscordAction
         private Discord $client,
     ) {}
 
-    public function addRoleToUser(string $user, ?string $role): void
+    public function addRoleToUser(string $user, ?string $role, ?string $rankDisplayName): void
     {
         throw_unless($role, InvalidArgumentException::class, 'Role is required.');
 
@@ -23,23 +22,28 @@ class DiscordAction
 
         $client->guilds
             ->fetch(env('DISCORD_SERVER_ID'))
-            ->done(function (Guild $guild) use ($user, $role, $client) {
-                $guild->members->fetch($user)->done(function (Member $member) use ($role, $client) {
-
+            ->done(function (Guild $guild) use ($user, $role, $client, $rankDisplayName) {
+                $guild->members->fetch($user)->done(function (Member $member) use ($guild, $role, $client, $rankDisplayName) {
+                    // Manage role
                     collect(config('discord.ranks'))
                         ->each(fn ($roleId) => $member->removeRole($roleId));
 
                     $member->addRole($role);
-
                     $client->guilds->save($member);
+
+                    // Send confirmation message
+                    $guild->channels->fetch(config('discord.notification_channel_id'))->done(function (Channel $channel) use($member, $rankDisplayName) {
+                        $rankNameFormatted = strtoupper($rankDisplayName);
+                        $channel->sendMessage("<@{$member->id}> has a new rank: {$rankNameFormatted} 🎉");
+                    });
                 });
             });
     }
 
-    public function sendMessage(Channel $channel, string $message): void
+    public function sendMessageToNotificationChannel(string $message): void
     {
-        $message = new Message($this->client);
-        $message->content = $message;
-        $channel->sendMessage($message);
+        $this->client
+            ->getChannel(config('discord.notification_channel_id'))
+            ->sendMessage($message);
     }
 }

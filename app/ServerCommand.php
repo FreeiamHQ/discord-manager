@@ -4,7 +4,7 @@ namespace App;
 
 use InvalidArgumentException;
 
-class Command
+class ServerCommand
 {
     public function __construct(
         public string $user,
