@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Actions\AnnounceNewForumThreadAction;
 use Discord\Discord;
 use App\DiscordAction;
 use App\ServerCommand;
@@ -13,16 +14,18 @@ class ServerCommandExecutor
 {
     public function __construct(
         private SetUserRankAction $setUserRankAction,
+        private AnnounceNewForumThreadAction $announceForumThreadAction,
     ) {}
 
-    public function execute(ServerCommand $command, Discord $discord): void
+    public function execute(ServerCommand $serverCommand, Discord $discord): void
     {
-        throw_unless($command, InvalidArgumentException::class, 'Command is required.');
+        throw_unless($serverCommand, InvalidArgumentException::class, 'Command is required.');
 
         $discordAction = new DiscordAction($discord);
 
-        match ($command->name) {
-            ServerCommandType::UpdateRole => $this->setUserRankAction->execute($discordAction, $command),
+        match ($serverCommand->name) {
+            ServerCommandType::UpdateRole => $this->setUserRankAction->execute($discordAction, $serverCommand),
+            ServerCommandType::AnnounceNewForumThread => $this->announceForumThreadAction->execute($discordAction, $serverCommand),
             default => '',
         };
     }

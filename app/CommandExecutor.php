@@ -2,12 +2,12 @@
 
 namespace App;
 
+use Discord\Discord;
 use Discord\Parts\Channel\Message;
 use App\DiscordCommands\CryptoExpertCommand;
 use App\DiscordCommands\InsultDiscordCommand;
 use App\DiscordCommands\ConnectDiscordCommand;
 use App\DiscordCommands\WelcomeDiscordCommand;
-use Discord\Discord;
 
 class CommandExecutor
 {
