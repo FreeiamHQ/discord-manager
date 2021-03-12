@@ -15,7 +15,7 @@ class StartCommand extends Command
 
     protected $description = 'Starts the Bot.';
 
-    const ServerWorkerExecutionTimeoutInSeconds = 60 * 5;
+    const ServerWorkerExecutionTimeoutInSeconds = 60 * 3;
 
     public function handle()
     {

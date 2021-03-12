@@ -8,6 +8,7 @@ return [
     ],
 
     'roles' => [
+        'verified-user' => env('DISCORD_ROLE_VERIFIEDUSER', '820031168191528991'),
         'crypto-expert' => env('DISCORD_ROLE_CRYPTOEXPERT', '818829693385965582'),
 
         'ranks' => [

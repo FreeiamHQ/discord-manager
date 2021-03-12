@@ -8,12 +8,14 @@ use App\ServerCommand;
 use App\ServerCommandType;
 use InvalidArgumentException;
 use App\Actions\SetUserRankAction;
+use App\Actions\UpdateUserVerifiedRole;
 use App\Actions\AnnounceNewForumThreadAction;
 use App\Actions\AnnounceUserAchievedHundredAction;
 
 class ServerCommandExecutor
 {
     public function __construct(
+        private UpdateUserVerifiedRole $updateUserVerifiedRole,
         private SetUserRankAction $setUserRankAction,
         private AnnounceNewForumThreadAction $announceForumThreadAction,
         private AnnounceUserAchievedHundredAction $announceUserAchievedHundredAction,
@@ -26,6 +28,7 @@ class ServerCommandExecutor
         $discordAction = new DiscordAction($discord);
 
         match ($serverCommand->name) {
+            ServerCommandType::UpdateVerifiedUserRole => $this->updateUserVerifiedRole->execute($discordAction, $serverCommand),
             ServerCommandType::UpdateRankRole => $this->setUserRankAction->execute($discordAction, $serverCommand),
             ServerCommandType::AnnounceNewForumThread => $this->announceForumThreadAction->execute($discordAction, $serverCommand),
             ServerCommandType::AchievedHundred => $this->announceUserAchievedHundredAction->execute($discordAction, $serverCommand),
