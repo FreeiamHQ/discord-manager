@@ -4,6 +4,6 @@ namespace App;
 
 class ServerCommandType
 {
-    const UpdateRole = 'role_update';
+    const UpdateRankRole = 'update_rank_role';
     const AnnounceNewForumThread = 'announce_new_forum_thread';
 }

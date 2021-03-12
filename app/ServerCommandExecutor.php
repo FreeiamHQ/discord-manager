@@ -24,7 +24,7 @@ class ServerCommandExecutor
         $discordAction = new DiscordAction($discord);
 
         match ($serverCommand->name) {
-            ServerCommandType::UpdateRole => $this->setUserRankAction->execute($discordAction, $serverCommand),
+            ServerCommandType::UpdateRankRole => $this->setUserRankAction->execute($discordAction, $serverCommand),
             ServerCommandType::AnnounceNewForumThread => $this->announceForumThreadAction->execute($discordAction, $serverCommand),
             default => '',
         };
