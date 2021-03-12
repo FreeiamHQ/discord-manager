@@ -32,7 +32,7 @@ class DiscordAction
                     $client->guilds->save($member);
 
                     // Send confirmation message
-                    $guild->channels->fetch(config('discord.notification_channel_id'))->done(function (Channel $channel) use($member, $rankDisplayName) {
+                    $guild->channels->fetch(config('discord.channels.bot-talk'))->done(function (Channel $channel) use($member, $rankDisplayName) {
                         $rankNameFormatted = strtoupper($rankDisplayName);
                         $channel->sendMessage("<@{$member->id}> has a new rank: {$rankNameFormatted} 🎉");
                     });
@@ -43,7 +43,7 @@ class DiscordAction
     public function sendMessageToNotificationChannel(string $message): void
     {
         $this->client
-            ->getChannel(config('discord.notification_channel_id'))
+            ->getChannel(config('discord.channels.bot-talk'))
             ->sendMessage($message);
     }
 }

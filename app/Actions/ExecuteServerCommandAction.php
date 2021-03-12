@@ -17,7 +17,7 @@ class ExecuteServerCommandAction
         $discordAction = new DiscordAction($discord);
 
         match ($command->name) {
-            ServerCommandType::UpdateRole => $discordAction->addRoleToUser($command->user, config("discord.ranks.{$command->value}"), ucfirst($command->value)),
+            ServerCommandType::UpdateRole => $discordAction->addRoleToUser($command->user, config("discord.roles.ranks.{$command->value}"), ucfirst($command->value)),
             default => '',
         };
     }
