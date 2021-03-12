@@ -21,16 +21,17 @@ class CryptoExpertCommand
     public function execute(Message $discordMessage, DiscordAction $discordAction): void
     {
         $cryptoRoleId = config('discord.roles.crypto-expert');
+        $discordUserId = $discordMessage->author->id;
 
         if ($discordMessage->author->roles->has($cryptoRoleId)) {
-            $discordAction->botTalk(collect($this->alreadyHasRoleResponses)->random());
+            $discordAction->botTalk(collect($this->alreadyHasRoleResponses)->random(), $discordUserId);
             return;
         }
 
         $userId = $discordMessage->author->id;
 
-        $discordAction->setUserRole($userId, $cryptoRoleId, function () use ($discordAction) {
-            $discordAction->botTalk(collect($this->responses)->random());
+        $discordAction->setUserRole($userId, $cryptoRoleId, function () use ($discordAction, $discordUserId) {
+            $discordAction->botTalk(collect($this->responses)->random(), $discordUserId);
         });
     }
 }

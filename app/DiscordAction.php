@@ -34,10 +34,12 @@ class DiscordAction
             });
     }
 
-    public function botTalk(string $message): void
+    public function botTalk(string $message, ?string $discordUserId = null): void
     {
+        $finalMessage = $discordUserId ? "<@{$discordUserId}> {$message}" : $message;
+
         $this->client
             ->getChannel(config('discord.channels.bot-talk'))
-            ->sendMessage($message);
+            ->sendMessage($finalMessage);
     }
 }
