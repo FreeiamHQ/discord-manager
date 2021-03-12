@@ -6,7 +6,6 @@ use Discord\Discord;
 use InvalidArgumentException;
 use Discord\Parts\Guild\Guild;
 use Discord\Parts\User\Member;
-use Discord\Parts\Channel\Channel;
 
 class DiscordAction
 {
@@ -14,33 +13,28 @@ class DiscordAction
         private Discord $client,
     ) {}
 
-    public function addRoleToUser(string $user, ?string $role, ?string $rankDisplayName): void
+    public function setUserRole(string $user, ?string $role, ?Callable $onDoneAction = null, ?Callable $beforeAction = null): void
     {
         throw_unless($role, InvalidArgumentException::class, 'Role is required.');
 
         $client = $this->client;
 
         $client->guilds
-            ->fetch(env('DISCORD_SERVER_ID'))
-            ->done(function (Guild $guild) use ($user, $role, $client, $rankDisplayName) {
-                $guild->members->fetch($user)->done(function (Member $member) use ($guild, $role, $client, $rankDisplayName) {
-                    // Manage role
-                    collect(config('discord.ranks'))
-                        ->each(fn ($roleId) => $member->removeRole($roleId));
+            ->fetch(config('discord.server-id'))
+            ->done(function (Guild $guild) use ($user, $role, $client, $onDoneAction, $beforeAction) {
+                $guild->members->fetch($user)->done(function (Member $member) use ($guild, $role, $client, $onDoneAction, $beforeAction) {
 
-                    $member->addRole($role);
-                    $client->guilds->save($member);
+                    if ($beforeAction) $beforeAction($member, $guild);
 
-                    // Send confirmation message
-                    $guild->channels->fetch(config('discord.channels.bot-talk'))->done(function (Channel $channel) use($member, $rankDisplayName) {
-                        $rankNameFormatted = strtoupper($rankDisplayName);
-                        $channel->sendMessage("<@{$member->id}> has a new rank: {$rankNameFormatted} 🎉");
+                    $member->addRole($role)->done(function () use ($client, $onDoneAction, $member, $guild) {
+                        $client->guilds->save($member);
+                        if ($onDoneAction) $onDoneAction($member, $guild);
                     });
                 });
             });
     }
 
-    public function sendMessageToNotificationChannel(string $message): void
+    public function botTalk(string $message): void
     {
         $this->client
             ->getChannel(config('discord.channels.bot-talk'))

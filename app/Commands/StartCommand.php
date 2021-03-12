@@ -4,9 +4,9 @@ namespace App\Commands;
 
 use Exception;
 use Discord\Discord;
+use App\CommandExecutor;
 use App\ServerCommandWorker;
 use Discord\Parts\Channel\Message;
-use App\Actions\ExecuteCommandAction;
 use LaravelZero\Framework\Commands\Command;
 
 class StartCommand extends Command
@@ -22,13 +22,13 @@ class StartCommand extends Command
         $loop = \React\EventLoop\Factory::create();
 
         $discord = new Discord([
-            'token' => env('DISCORD_TOKEN') ?? throw new Exception('Discord is not configured.'),
+            'token' => env('DISCORD_BOT_TOKEN') ?? throw new Exception('Discord is not configured.'),
             'loop' => $loop,
         ]);
 
-        $discord->on('message', function (Message $message) {
+        $discord->on('message', function (Message $message) use ($discord) {
             if (str_starts_with($message->content, '!')) {
-                resolve(ExecuteCommandAction::class)->execute(strtolower($message->content), $message);
+                resolve(CommandExecutor::class)->execute(strtolower($message->content), $message, $discord);
             }
         });
 

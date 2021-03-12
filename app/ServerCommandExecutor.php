@@ -1,15 +1,20 @@
 <?php
 
-namespace App\Actions;
+namespace App;
 
 use Discord\Discord;
 use App\DiscordAction;
 use App\ServerCommand;
 use App\ServerCommandType;
 use InvalidArgumentException;
+use App\Actions\SetUserRankAction;
 
-class ExecuteServerCommandAction
+class ServerCommandExecutor
 {
+    public function __construct(
+        private SetUserRankAction $setUserRankAction,
+    ) {}
+
     public function execute(ServerCommand $command, Discord $discord): void
     {
         throw_unless($command, InvalidArgumentException::class, 'Command is required.');
@@ -17,7 +22,7 @@ class ExecuteServerCommandAction
         $discordAction = new DiscordAction($discord);
 
         match ($command->name) {
-            ServerCommandType::UpdateRole => $discordAction->addRoleToUser($command->user, config("discord.roles.ranks.{$command->value}"), ucfirst($command->value)),
+            ServerCommandType::UpdateRole => $this->setUserRankAction->execute($discordAction, $command),
             default => '',
         };
     }

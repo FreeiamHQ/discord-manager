@@ -3,16 +3,16 @@
 namespace App;
 
 use Discord\Discord;
+use App\ServerCommandExecutor;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
-use App\Actions\ExecuteServerCommandAction;
 
 class ServerCommandWorker
 {
     const ApiEndpoint = 'discord-manager/queue';
 
     public function __construct(
-        private ExecuteServerCommandAction $executeServerCommandAction
+        private ServerCommandExecutor $serverCommandExecutor
     ) {}
 
     public function run(Discord $discord): void
@@ -28,6 +28,6 @@ class ServerCommandWorker
             }
 
             collect($res->json()['data'] ?? [])
-                ->each(fn ($commandData) => $this->executeServerCommandAction->execute(ServerCommand::fromArray($commandData), $discord));
+                ->each(fn ($commandData) => $this->serverCommandExecutor->execute(ServerCommand::fromArray($commandData), $discord));
     }
 }
