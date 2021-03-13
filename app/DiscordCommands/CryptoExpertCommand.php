@@ -28,9 +28,7 @@ class CryptoExpertCommand
             return;
         }
 
-        $userId = $discordMessage->author->id;
-
-        $discordAction->setUserRole($userId, $cryptoRoleId, function () use ($discordAction, $discordUserId) {
+        $discordAction->setUserRole($discordUserId, $cryptoRoleId, function () use ($discordAction, $discordUserId) {
             $discordAction->botTalk(collect($this->responses)->random(), $discordUserId);
         });
     }
