@@ -11,6 +11,14 @@ class ConnectDiscordCommand
         $helpArticleLinkUrl = 'https://support.freeiam.com/discord/sync-rank.html';
 
         $discordMessage->channel
-            ->sendMessage("Connecting your Freeiam account to Discord is easy!\nJust follow these quick 4 steps and you are done in no time: {$helpArticleLinkUrl}");
+            ->sendMessage(
+                "Connecting your Freeiam account to Discord is **EAZY**!\n\n" .
+                "**Your benefits**:\n".
+                "- Become a verified rebel\n".
+                "- Sync your Freeiam rank\n".
+                "- Auto-publish your campfires\n".
+                "- Auto-publish achieved 💯's\n\n".
+                "Just follow these __quick 4 steps__ and you are done in no time: {$helpArticleLinkUrl}"
+            );
     }
 }
