@@ -4,6 +4,7 @@ namespace App;
 
 use Discord\Discord;
 use InvalidArgumentException;
+use Discord\Parts\Embed\Embed;
 use Discord\Parts\Guild\Guild;
 use Discord\Parts\User\Member;
 
@@ -62,6 +63,29 @@ class DiscordAction
         $this->client
             ->getChannel(config('discord.channels.bot-talk'))
             ->sendMessage($finalMessage);
+    }
+
+    public function botTalkWithEmbed(?string $message = null, string $color, string $title, ?string $description = null, array $fields = [], ?string $thumbnailUrl = null, ?string $imageUrl = null, ?string $footerText = null, ?string $discordUserId = null): void
+    {
+        $finalTitle = $discordUserId ? "<@{$discordUserId}> {$title}" : $title;
+
+        $embed = (new Embed($this->client))
+            ->setTitle($finalTitle)
+            ->setColor(strtolower(str_replace('#', '0x', $color)))
+            ->setThumbnail($thumbnailUrl ?? 'https://www.freeiam.com/images/logo.png');
+
+        collect($fields)
+            ->each(fn (DiscordFieldValue $field) => $embed->addFieldValues($field->name, $field->value, $field->inline));
+
+        if ($description) $embed->setDescription($description);
+        if ($imageUrl) $embed->setImage($imageUrl);
+        if ($footerText) $embed->setFooter($footerText);
+
+        $channel = $this->client->getChannel(config('discord.channels.bot-talk'));
+
+        $message
+            ? $channel->sendMessage($message, false, $embed)
+            : $channel->sendEmbed($embed);
     }
 
     public function getClient(): Discord
