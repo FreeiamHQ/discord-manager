@@ -25,7 +25,7 @@ class DiscordAction
             ->done(function (Guild $guild) use ($user, $role, $client, $onDoneAction, $beforeAction) {
                 $guild->members->fetch($user)->done(function (Member $member) use ($guild, $role, $client, $onDoneAction, $beforeAction) {
                     if ($member->roles->has($role)) return;
-                    if ($beforeAction) $beforeAction($member, $guild);
+                    if ($beforeAction) [$member, $guild] = $beforeAction($member, $guild);
 
                     $member->addRole($role)->done(function () use ($client, $onDoneAction, $member, $guild) {
                         $client->guilds->save($member);
@@ -46,7 +46,7 @@ class DiscordAction
             ->done(function (Guild $guild) use ($user, $role, $client, $onDoneAction, $beforeAction) {
                 $guild->members->fetch($user)->done(function (Member $member) use ($guild, $role, $client, $onDoneAction, $beforeAction) {
                     if (!$member->roles->has($role)) return;
-                    if ($beforeAction) $beforeAction($member, $guild);
+                    if ($beforeAction) [$member, $guild] = $beforeAction($member, $guild);
 
                     $member->removeRole($role)->done(function () use ($client, $onDoneAction, $member, $guild) {
                         $client->guilds->save($member);
