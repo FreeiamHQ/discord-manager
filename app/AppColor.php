@@ -14,4 +14,5 @@ class AppColor
 
     const ThemeGreen = '#48BB78';
     const ThemeRed = '#E53E3E';
+    const ThemeBlue = '#4299E1';
 }

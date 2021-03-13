@@ -75,7 +75,7 @@ class DiscordAction
             ->setThumbnail($thumbnailUrl ?? 'https://www.freeiam.com/images/logo.png');
 
         collect($fields)
-            ->each(fn (DiscordFieldValue $field) => $embed->addFieldValues($field->name, $field->value, $field->inline));
+            ->each(fn (DiscordEmbedField $field) => $embed->addFieldValues($field->name, $field->value, $field->inline));
 
         if ($description) $embed->setDescription($description);
         if ($imageUrl) $embed->setImage($imageUrl);

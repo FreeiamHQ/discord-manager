@@ -5,7 +5,7 @@ namespace App\DiscordCommands;
 use App\DiscordAction;
 use Discord\Parts\Channel\Message;
 
-class CryptoExpertCommand
+class CryptoExpertDiscordCommand
 {
     private $responses = [
         'Crypto expert found 🚨 You have now access to the Freeiam crypto channels 🎉',

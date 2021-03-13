@@ -2,7 +2,7 @@
 
 namespace App;
 
-class DiscordFieldValue
+class DiscordEmbedField
 {
     public function __construct(
         public string $name,
