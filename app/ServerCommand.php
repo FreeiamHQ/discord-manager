@@ -13,6 +13,11 @@ class ServerCommand
         public array $meta = [],
     ) {}
 
+    public function getMeta(string $key): mixed
+    {
+        return $this->meta[$key] ?? null;
+    }
+
     public static function fromArray(array $commandData): static
     {
         throw_if(empty($commandData['name']), InvalidArgumentException::class, 'Command name is required.');

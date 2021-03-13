@@ -11,9 +11,9 @@ class AnnounceNewForumThreadAction
     {
         $publicUrl = $serverCommand->value;
         $discordUser = $serverCommand->user;
-        $title = $serverCommand->meta['title'] ?? null;
-        $userFirstName = $serverCommand->meta['userFirstName'] ?? null;
-        $userUsername = $serverCommand->meta['userUsername'] ?? null;
+        $title = $serverCommand->getMeta('title');
+        $userFirstName = $serverCommand->getMeta('userFirstName');
+        $userUsername = $serverCommand->getMeta('userUsername');
         $userDisplayName = $userFirstName ? "{$userFirstName} ($userUsername)" : $userUsername;
 
         $authorDisplayName = $discordUser ? "<@{$discordUser}>" : $userDisplayName;
