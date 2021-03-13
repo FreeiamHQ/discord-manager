@@ -28,7 +28,6 @@ class ServerCommandWorker
             }
 
             collect($res->json()['data'] ?? [])
-                ->reverse()
                 ->each(fn ($commandData) => $this->serverCommandExecutor->execute(ServerCommand::fromArray($commandData), $discord));
     }
 }
