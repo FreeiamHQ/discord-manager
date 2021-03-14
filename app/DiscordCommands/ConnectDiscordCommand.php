@@ -8,7 +8,7 @@ class ConnectDiscordCommand
 {
     public function execute(Message $discordMessage): void
     {
-        $helpArticleLinkUrl = 'https://support.freeiam.com/discord/sync-rank.html';
+        $helpArticleLinkUrl = 'https://support.freeiam.com/discord/sync-account.html';
 
         $discordMessage->channel
             ->sendMessage(
