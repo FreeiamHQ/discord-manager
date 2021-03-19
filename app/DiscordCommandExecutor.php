@@ -4,13 +4,14 @@ namespace App;
 
 use Discord\Discord;
 use Discord\Parts\Channel\Message;
-use App\DiscordCommands\CryptoExpertDiscordCommand;
+use App\DiscordCommands\HelpDiscordCommand;
 use App\DiscordCommands\InsultDiscordCommand;
 use App\DiscordCommands\ConnectDiscordCommand;
-use App\DiscordCommands\HelpDiscordCommand;
 use App\DiscordCommands\WelcomeDiscordCommand;
+use App\DiscordCommands\MagicEightDiscordCommand;
+use App\DiscordCommands\CryptoExpertDiscordCommand;
 
-class CommandExecutor
+class DiscordCommandExecutor
 {
     public function __construct(
         private WelcomeDiscordCommand $welcomeDiscordCommand,
@@ -18,6 +19,7 @@ class CommandExecutor
         private ConnectDiscordCommand $connectDiscordCommand,
         private CryptoExpertDiscordCommand $cryptoExpertCommand,
         private HelpDiscordCommand $helpDiscordCommand,
+        private MagicEightDiscordCommand $magicEightDiscordCommand,
     ) {}
 
     public function execute(string $command, Message $discordMessage, Discord $discord): void
@@ -30,6 +32,7 @@ class CommandExecutor
             '!connect' => $this->connectDiscordCommand->execute($discordMessage),
             '!crypto' => $this->cryptoExpertCommand->execute($discordMessage, $discordAction),
             '!help', '!commands' => $this->helpDiscordCommand->execute($discordAction),
+            '!magic8', '!yn' => $this->magicEightDiscordCommand->execute($discordMessage),
             default => '',
         };
     }

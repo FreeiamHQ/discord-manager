@@ -4,7 +4,7 @@ namespace App\Commands;
 
 use Exception;
 use Discord\Discord;
-use App\CommandExecutor;
+use App\DiscordCommandExecutor;
 use App\ServerCommandWorker;
 use Discord\Parts\Channel\Message;
 use LaravelZero\Framework\Commands\Command;
@@ -28,7 +28,7 @@ class StartCommand extends Command
 
         $discord->on('message', function (Message $message) use ($discord) {
             if (str_starts_with($message->content, '!')) {
-                resolve(CommandExecutor::class)->execute(strtolower($message->content), $message, $discord);
+                resolve(DiscordCommandExecutor::class)->execute(strtolower($message->content), $message, $discord);
             }
         });
 
