@@ -12,7 +12,7 @@ class ConnectDiscordCommand
 
         $discordMessage->channel
             ->sendMessage(
-                "Connecting your Freeiam account to Discord is **EAZY**!\n\n" .
+                "Connecting your Freeiam account to Discord is **EASY**!\n\n" .
                 "**Your benefits**:\n".
                 "- Become a verified rebel\n".
                 "- Sync your Freeiam rank\n".
