@@ -15,7 +15,8 @@ class HelpDiscordCommand
             title: 'These are some cool & easy commands you can use:',
             fields: [
                 new DiscordEmbedField('!connect', 'Connect your FREEIAM account with Discord and keep them in sync. (recommended)'),
-                new DiscordEmbedField('!crypto', 'Get access to the crypto channels within our Discord server.'),
+                // Dedicated crypto channels are currently disabled
+                // new DiscordEmbedField('!crypto', 'Get access to the crypto channels within our Discord server.'),
                 new DiscordEmbedField('!welcome', 'Let me welcome someone. 👋'),
                 new DiscordEmbedField('!insult', 'I can insult someone more you as well! 👀'),
             ]
