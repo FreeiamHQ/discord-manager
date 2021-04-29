@@ -18,7 +18,7 @@ class HelpDiscordCommand
                 // Dedicated crypto channels are currently disabled
                 // new DiscordEmbedField('!crypto', 'Get access to the crypto channels within our Discord server.'),
                 new DiscordEmbedField('!welcome', 'Let me welcome someone. 👋'),
-                new DiscordEmbedField('!insult', 'I can insult someone more you as well! 👀'),
+                new DiscordEmbedField('!insult', 'I can insult someone for you as well! 👀'),
             ]
         );
     }
