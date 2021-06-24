@@ -22,12 +22,12 @@ class ServerCommandWorker
             ->acceptJson()
             ->get(env('API_URL') . '/' . self::ApiEndpoint);
 
-            if ($res->failed()) {
-                Log::error('Did not get a successful response from server discord queue.');
-                return;
-            }
+        if ($res->failed()) {
+            Log::error('Did not get a successful response from server discord queue.');
+            return;
+        }
 
-            collect($res->json()['data'] ?? [])
+        collect($res->json()['data'] ?? [])
                 ->each(fn ($commandData) => $this->serverCommandExecutor->execute(ServerCommand::fromArray($commandData), $discord));
     }
 }
