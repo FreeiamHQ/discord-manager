@@ -14,7 +14,7 @@ class ConnectDiscordCommand
             ->sendMessage(
                 "Connecting your Freeiam account with Discord is **EASY**!\n\n" .
                 "**Your benefits**:\n".
-                "- Become a verified rebel\n".
+                "- Get your "Superhuman" tag here!\n".
                 "- Sync your Freeiam rank\n".
                 "- Auto-publish your campfires\n".
                 "- Auto-publish achieved 💯's\n\n".
