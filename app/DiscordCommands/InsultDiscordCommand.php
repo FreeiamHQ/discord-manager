@@ -9,6 +9,7 @@ class InsultDiscordCommand
     private $responses = [
         'You are an idiot ...',
         'Ass!',
+        'Damn dawg, u actually kinda thic ngl... (didn not expect this one did you?)',
     ];
 
     public function execute(Message $discordMessage): void
