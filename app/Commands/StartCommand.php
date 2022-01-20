@@ -11,9 +11,9 @@ use LaravelZero\Framework\Commands\Command;
 
 class StartCommand extends Command
 {
-    protected $signature = 'freeiam:start';
+    protected $signature = 'start';
 
-    protected $description = 'Starts the Bot.';
+    protected $description = 'starts the manager';
 
     const ServerWorkerExecutionTimeoutInSeconds = 60 * 3;
 
