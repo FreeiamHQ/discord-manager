@@ -7,8 +7,7 @@ use Discord\Parts\Channel\Message;
 class InsultDiscordCommand
 {
     private $responses = [
-        'You are an idiot ...',
-        'Ass!',
+        'I am Ava. I don\'t curse 😠',
     ];
 
     public function execute(Message $discordMessage): void
